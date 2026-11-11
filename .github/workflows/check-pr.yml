@@ -3,20 +3,19 @@
 # Běží na self-hosted runneru organizace (label coolify).
 # Do Claude API se přihlašuje přes Workload Identity Federation, v repozitářích není žádný secret.
 # Identifikátory federace níže nejsou tajné.
-name: Kontrola PR
-
+name: Check PR
 on:
   workflow_call:
-
 jobs:
-  kontrola:
+  check:
+    name: Claude
     # Drafty se nekontrolují, kontrola proběhne po převodu na Ready for review.
     if: github.event.pull_request.draft == false
     runs-on: [self-hosted, coolify]
     timeout-minutes: 25
     # Nový push do pull requestu zruší rozběhnutou kontrolu předchozího commitu.
     concurrency:
-      group: kontrola-pr-${{ github.repository }}-${{ github.event.pull_request.number }}
+      group: check-pr-${{ github.repository }}-${{ github.event.pull_request.number }}
       cancel-in-progress: true
     permissions:
       contents: read
