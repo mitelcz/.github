@@ -4,7 +4,7 @@ Společná GitHub workflow a výchozí soubory organizace [MITEL a.s.](https://g
 
 ## Obsah
 
-- `.github/workflows/kontrola-pr.yml` - automatická kontrola pull requestů nástrojem Claude, společná pro všechny repozitáře organizace.
+- `.github/workflows/check-pr.yml` - automatická kontrola pull requestů nástrojem Claude, společná pro všechny repozitáře organizace.
 
 ## Automatická kontrola pull requestů
 
@@ -13,23 +13,25 @@ Workflow zkontroluje pull request při otevření, při každém pushi, při zno
 - Běží na self-hosted runneru organizace (label `coolify`), ne na runnerech GitHubu, takže nečerpá minuty GitHub Actions.
 - Do Claude API se přihlašuje přes Workload Identity Federation: OIDC token z GitHubu se vymění za krátkodobý token Claude API. V repozitářích proto není žádný secret a identifikátory federace ve workflow nejsou tajné.
 
-Repozitář kontrolu zapne souborem `.github/workflows/kontrola-pr.yml`:
+Repozitář kontrolu zapne souborem `.github/workflows/check-pr.yml`:
 
 ```yaml
-name: Kontrola PR
+# Automatická kontrola pull requestů, společný workflow v repozitáři mitelcz/.github.
+name: Check PR
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 jobs:
-  kontrola:
-    uses: mitelcz/.github/.github/workflows/kontrola-pr.yml@main
+  check:
+    name: Check
+    uses: mitelcz/.github/.github/workflows/check-pr.yml@main
     permissions:
       contents: read
       pull-requests: write
       id-token: write
 ```
 
-Logika kontroly (runner, přihlášení, prompt, model, limity) je jen ve společném workflow, změna v něm platí pro všechny repozitáře najednou. Pravidla práce s nálezy jsou v [manuálu GitHubu](https://docs.mitel.cz/aplikace/github/) ve firemní dokumentaci.
+V pull requestu a v Actions se kontrola zobrazuje jako „Check PR / Check / Claude". Logika kontroly (runner, přihlášení, prompt, model, limity) je jen ve společném workflow, změna v něm platí pro všechny repozitáře najednou. Pravidla práce s nálezy jsou v [manuálu GitHubu](https://docs.mitel.cz/aplikace/github/) ve firemní dokumentaci.
 
 ## Práce s backlogem
 
