@@ -1,0 +1,3 @@
+# Konce řádků: v repu i v pracovní kopii vždy LF, bez ohledu na core.autocrlf vývojáře.
+# Windows nástroje s LF pracují bez problémů; jednotnost usnadňuje diff a build.
+* text=auto eol=lf
