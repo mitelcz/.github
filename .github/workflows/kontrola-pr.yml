@@ -32,7 +32,7 @@ jobs:
         with:
           anthropic_federation_rule_id: fdrl_01RXR2DTUE2a6eXhU8SUxo2G
           anthropic_organization_id: 91648180-5246-4dba-8c55-dc3ca63b7301
-          anthropic_service_account_id: svac_01HXGKVjDEReZiHKj2naoG9v
+          # Servisní účet určuje pravidlo federace, jeho výměna se dělá jen v Claude Console.
           anthropic_workspace_id: wrkspc_01NkFxYY2upQXHqA3uQCBtri
           # Jeden souhrnný komentář v pull requestu, při dalších kontrolách se aktualizuje.
           track_progress: true
