@@ -8,7 +8,12 @@ Společná GitHub workflow a výchozí soubory organizace [MITEL a.s.](https://g
 
 ## Automatická kontrola pull requestů
 
-Workflow zkontroluje pull request při otevření, při každém pushi, při znovuotevření a při převodu z draftu. Nálezy zapíše jako komentáře u řádků a průběžně aktualizovaný souhrnný komentář pod účtem `claude[bot]`. Drafty přeskakuje a nový push zruší rozběhnutou kontrolu předchozího commitu. Pull request neschvaluje, ale check je červený, dokud zůstává nevyřešený nález: nový nebo dřívější nález, který není opravený ani zdůvodněný v odpovědi. Zdůvodnění se projeví po znovuspuštění kontroly (Re-run). Červený je i check kontroly, která se přeskočila nebo nedoběhla.
+Workflow zkontroluje pull request při otevření, při každém pushi, při znovuotevření a při převodu z draftu. Nálezy zapíše jako komentáře u řádků a průběžně aktualizovaný souhrnný komentář pod účtem `claude[bot]`. Drafty přeskakuje a nový push zruší rozběhnutou kontrolu předchozího commitu. Pull request neschvaluje. Workflow má dvě úlohy:
+
+- **Claude** pull request zkontroluje. Check je červený jen tehdy, když kontrola neproběhla (přeskočila se nebo nedoběhla).
+- **Findings** je červený, dokud zůstává nevyřešená konverzace u nálezu kontroly. Opravený nález i nález zdůvodněný v odpovědi se označí Resolve conversation a úloha se spustí znovu (Re-run failed jobs). Úloha nevolá Claude API, kontrola Claudem se při tom neopakuje.
+
+Provoz:
 
 - Běží na self-hosted runneru organizace (label `coolify`), ne na runnerech GitHubu, takže nečerpá minuty GitHub Actions.
 - Do Claude API se přihlašuje přes Workload Identity Federation: OIDC token z GitHubu se vymění za krátkodobý token Claude API. V repozitářích proto není žádný secret a identifikátory federace ve workflow nejsou tajné.
@@ -31,7 +36,7 @@ jobs:
       id-token: write
 ```
 
-V pull requestu a v Actions se kontrola zobrazuje jako „Check PR / Check / Claude". Logika kontroly (runner, přihlášení, prompt, model, limity) je jen ve společném workflow, změna v něm platí pro všechny repozitáře najednou. Pravidla práce s nálezy jsou v [manuálu GitHubu](https://docs.mitel.cz/aplikace/github/) ve firemní dokumentaci.
+V pull requestu a v Actions se kontrola zobrazuje jako checky „Check PR / Check / Claude" a „Check PR / Check / Findings". Logika kontroly (runner, přihlášení, prompt, model, limity) je jen ve společném workflow, změna v něm platí pro všechny repozitáře najednou. Pravidla práce s nálezy jsou v [manuálu GitHubu](https://docs.mitel.cz/aplikace/github/) ve firemní dokumentaci.
 
 ## Práce s backlogem
 
