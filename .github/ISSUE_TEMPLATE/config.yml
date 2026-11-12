@@ -1,0 +1,6 @@
+# Issue se zakládá jen přes formulář podle typu, prázdné issue web nenabízí.
+blank_issues_enabled: false
+contact_links:
+  - name: Manuál GitHubu
+    url: https://docs.mitel.cz/aplikace/github/issues/
+    about: Pravidla evidence práce v issues (typy, labels, milestones, uzavírání).

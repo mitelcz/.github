@@ -1,0 +1,32 @@
+name: Bug
+description: Aplikace nebo nasazení se chová jinak, než má.
+type: Bug
+body:
+  - type: markdown
+    attributes:
+      value: Titulek česky a věcně, co nefunguje. Bez hesel, tokenů, secretů a osobních údajů zákazníků, issues čte každý člen organizace.
+  - type: textarea
+    id: co-se-deje
+    attributes:
+      label: Co se děje
+      description: Co nefunguje, kde (prostředí, stránka, funkce) a od kdy.
+    validations:
+      required: true
+  - type: textarea
+    id: co-se-ma-dit
+    attributes:
+      label: Co se má dít
+      description: Očekávané chování.
+    validations:
+      required: true
+  - type: textarea
+    id: jak-chybu-zopakovat
+    attributes:
+      label: Jak chybu zopakovat
+      description: Nepovinné. Kroky, data, účet nebo role.
+  - type: textarea
+    id: log
+    attributes:
+      label: Log nebo chybová hláška
+      description: Nepovinné. Text se vloží jako blok kódu.
+      render: text

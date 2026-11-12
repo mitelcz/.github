@@ -1,0 +1,19 @@
+name: Feature
+description: Nová funkce nebo nápad.
+type: Feature
+body:
+  - type: markdown
+    attributes:
+      value: Titulek česky a věcně, co má aplikace umět. Bez hesel, tokenů, secretů a osobních údajů zákazníků, issues čte každý člen organizace.
+  - type: textarea
+    id: co-by-aplikace-mela-umet
+    attributes:
+      label: Co by aplikace měla umět
+      description: Popis funkce.
+    validations:
+      required: true
+  - type: textarea
+    id: komu-a-proc
+    attributes:
+      label: Komu a proč to pomůže
+      description: Nepovinné.

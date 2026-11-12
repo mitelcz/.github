@@ -1,0 +1,19 @@
+name: Decision
+description: Čeká na rozhodnutí; diskuse v komentářích, závěr se zapíše do komentáře a issue se zavře.
+type: Decision
+body:
+  - type: markdown
+    attributes:
+      value: Titulek česky a věcně, co se rozhoduje. Bez hesel, tokenů, secretů a osobních údajů zákazníků, issues čte každý člen organizace.
+  - type: textarea
+    id: co-se-rozhoduje
+    attributes:
+      label: Co se rozhoduje
+      description: Otázka, kontext, proč a do kdy je rozhodnutí potřeba.
+    validations:
+      required: true
+  - type: textarea
+    id: varianty
+    attributes:
+      label: Varianty
+      description: Nepovinné. Možnosti s výhodami a nevýhodami, případně doporučení.
