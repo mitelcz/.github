@@ -17,7 +17,7 @@ Když se dokumentace a skutečnost rozcházejí, upozorni na to uživatele.
 
 ## Pravidla repozitáře
 
-- **Repozitář je veřejný.** Nepatří do něj nic tajného ani interního: žádné secrety, IP adresy, názvy serverů, interní adresy ani popis sítě. Identifikátory federace ve workflow (organizace, workspace, servisní účet, pravidlo) tajné nejsou.
-- **Změna společného workflow platí hned pro všechny repozitáře**, které ho volají přes `@main`. Před sloučením ji ověř: v pilotním repozitáři nastav volající workflow na `@<větev>` tohoto repozitáře, otevři testovací pull request a slučuj, až kontrola projde.
+- **Repozitář je veřejný.** Nepatří do něj nic tajného ani interního: žádné secrety, IP adresy, názvy serverů, interní adresy ani popis sítě. Identifikátory federace ve workflow (organizace, workspace, pravidlo) tajné nejsou.
+- **Změna společného workflow platí hned pro všechny repozitáře**, které ho volají přes `@main`. Předem z větve ji ověřit nejde: GitHub App `claude` vydá token jen workflow shodnému s verzí ve výchozí větvi, takže by se kontrola v testovacím pull requestu přeskočila. Ověřuje se hned po sloučení znovuspuštěním kontroly (Re-run) v otevřeném testovacím pull requestu, které už použije novou verzi z `main`; když selže, změnu vrať revertem.
 - **Kontrola pull requestů v tomto repozitáři neběží:** skupina self-hosted runnerů organizace veřejné repozitáře nepouští. Změny se kontrolují ručně.
 - **Výchozí šablony a profil organizace** (`PULL_REQUEST_TEMPLATE.md`, `ISSUE_TEMPLATE/`, `profile/README.md`) platí pro všechny repozitáře organizace, které nemají vlastní, profil pro veřejnou stránku organizace.
