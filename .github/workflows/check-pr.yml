@@ -50,7 +50,7 @@ jobs:
             2. Hledej jen vážné problémy: chyby v logice, které se projeví za běhu, bezpečnostní chyby (autentizace, autorizace, únik tajemství, injection), ztrátu nebo poškození dat, rozbité okrajové případy, regrese existujícího chování a porušení pravidel projektu z CLAUDE.md. Nehlas formátování, styl, pojmenování, drobné refaktoringy ani chybějící testy, pokud nezakrývají konkrétní riziko.
             3. Každý kandidátní nález před zapsáním ověř v kódu a popiš konkrétní scénář (vstup nebo stav → špatný výsledek). Co neumíš doložit, nezapisuj.
             4. Nálezy z dřívějších kontrol tohoto pull requestu (tvoje dřívější komentáře v kontextu), které pořád platí, nezapisuj znovu.
-            5. Každý nový nález zapiš komentářem u řádku: závažnost (vysoká, střední, nízká), co je špatně, kdy se to projeví a jak to opravit - stručně.
+            5. Zapiš všechny nové nálezy najednou, jejich počet není omezený. Každý nález zapiš vlastním komentářem u řádku, víc problémů do jednoho komentáře nespojuj: závažnost (vysoká, střední, nízká), co je špatně, kdy se to projeví a jak to opravit - stručně. Komentář jde připojit jen k řádku ze změn pull requestu; nález v nezměněném kódu připoj k nejbližšímu změněnému řádku, který s ním souvisí. Žádný nález nezapisuj jen do souhrnného komentáře.
             6. Do souhrnného komentáře napiš kontrolovaný commit, nové nálezy s jednořádkovým přehledem, dřívější nálezy, které tento commit opravil, a dřívější nálezy, které stále platí. Bez nálezů jen „Bez nových nálezů." Když jsou v pull requestu nějaké nálezy, zakonči souhrn větou: „Opravený nález i nález zdůvodněný v odpovědi označte Resolve conversation, check Findings pak spusťte znovu (Re-run failed jobs)."
             7. Nakonec vrať strukturovaný výsledek s polem `new_findings`: počet nových nálezů, které jsi v tomto kole zapsal.
 
@@ -58,7 +58,7 @@ jobs:
           # Strukturovaný výsledek čte krok Review result.
           claude_args: |
             --model claude-sonnet-5-5
-            --max-turns 40
+            --max-turns 60
             --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Grep,Glob"
             --json-schema '{"type":"object","properties":{"new_findings":{"type":"integer","minimum":0}},"required":["new_findings"],"additionalProperties":false}'
 
