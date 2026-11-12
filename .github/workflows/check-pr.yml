@@ -27,7 +27,8 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: anthropics/claude-code-action@v1
+      - id: review
+        uses: anthropics/claude-code-action@v1
         with:
           anthropic_federation_rule_id: fdrl_01RXR2DTUE2a6eXhU8SUxo2G
           anthropic_organization_id: 91648180-5246-4dba-8c55-dc3ca63b7301
@@ -49,10 +50,29 @@ jobs:
             3. Každý kandidátní nález před zapsáním ověř v kódu a popiš konkrétní scénář (vstup nebo stav → špatný výsledek). Co neumíš doložit, nezapisuj.
             4. Nálezy z dřívějších kontrol tohoto pull requestu (tvoje dřívější komentáře v kontextu), které pořád platí, nezapisuj znovu.
             5. Každý nový nález zapiš komentářem u řádku: závažnost (vysoká, střední, nízká), co je špatně, kdy se to projeví a jak to opravit - stručně.
-            6. Do souhrnného komentáře napiš kontrolovaný commit, nové nálezy s jednořádkovým přehledem, dřívější nálezy, které tento commit opravil, a dřívější nálezy, které stále platí. Bez nálezů jen „Bez nových nálezů."
+            6. Do souhrnného komentáře napiš kontrolovaný commit, nové nálezy s jednořádkovým přehledem, dřívější nálezy, které tento commit opravil, a dřívější nálezy, které stále platí (u každého, zda má zdůvodnění). Bez nálezů jen „Bez nových nálezů."
+            7. Nakonec vrať strukturovaný výsledek s polem `unresolved`: počet nálezů (nových i dřívějších, které stále platí), na které v pull requestu neodpověděl člověk vysvětlením, proč se nález neřeší. Nálezy opravené kódem a nálezy s takovou odpovědí se nepočítají; věcnou správnost zdůvodnění neposuzuješ. Podle tohoto počtu bude check pull requestu zelený, nebo červený.
 
             Piš česky s diakritikou a používej běžnou pomlčku (-), ne dlouhou.
+          # Strukturovaný výsledek čte krok Výsledek kontroly.
           claude_args: |
             --model claude-sonnet-5-5
             --max-turns 40
             --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Grep,Glob"
+            --json-schema '{"type":"object","properties":{"unresolved":{"type":"integer","minimum":0}},"required":["unresolved"],"additionalProperties":false}'
+
+      # Check je červený, dokud zůstává nevyřešený nález.
+      # Chybějící výsledek (kontrola se přeskočila nebo nedoběhla) je také chyba.
+      - name: Výsledek kontroly
+        env:
+          RESULT: ${{ steps.review.outputs.structured_output }}
+        run: |
+          if ! unresolved=$(printf '%s' "$RESULT" | jq -er '.unresolved'); then
+            echo "::error::Kontrola nevrátila výsledek (přeskočila se nebo nedoběhla). Spusťte ji znovu."
+            exit 1
+          fi
+          if [ "$unresolved" -gt 0 ]; then
+            echo "::error::Nevyřešené nálezy: $unresolved. Každý opravte, nebo v odpovědi zdůvodněte, proč se neřeší, a spusťte kontrolu znovu."
+            exit 1
+          fi
+          echo "Bez nevyřešených nálezů."

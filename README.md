@@ -8,7 +8,7 @@ Společná GitHub workflow a výchozí soubory organizace [MITEL a.s.](https://g
 
 ## Automatická kontrola pull requestů
 
-Workflow zkontroluje pull request při otevření, při každém pushi, při znovuotevření a při převodu z draftu. Nálezy zapíše jako komentáře u řádků a průběžně aktualizovaný souhrnný komentář pod účtem `claude[bot]`. Drafty přeskakuje a nový push zruší rozběhnutou kontrolu předchozího commitu. Pull request neschvaluje ani neblokuje.
+Workflow zkontroluje pull request při otevření, při každém pushi, při znovuotevření a při převodu z draftu. Nálezy zapíše jako komentáře u řádků a průběžně aktualizovaný souhrnný komentář pod účtem `claude[bot]`. Drafty přeskakuje a nový push zruší rozběhnutou kontrolu předchozího commitu. Pull request neschvaluje, ale check je červený, dokud zůstává nevyřešený nález: nový nebo dřívější nález, který není opravený ani zdůvodněný v odpovědi. Zdůvodnění se projeví po znovuspuštění kontroly (Re-run). Červený je i check kontroly, která se přeskočila nebo nedoběhla.
 
 - Běží na self-hosted runneru organizace (label `coolify`), ne na runnerech GitHubu, takže nečerpá minuty GitHub Actions.
 - Do Claude API se přihlašuje přes Workload Identity Federation: OIDC token z GitHubu se vymění za krátkodobý token Claude API. V repozitářích proto není žádný secret a identifikátory federace ve workflow nejsou tajné.
