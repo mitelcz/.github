@@ -1,4 +1,5 @@
-# Issue se zakládá jen přes formulář podle typu, prázdné issue web nenabízí.
+# Issue se zakládá přes formulář podle typu.
+# Prázdné issue (Blank issue) web i tak nabízí lidem s právem zápisu, s označením Maintainers only.
 blank_issues_enabled: false
 contact_links:
   - name: Manuál GitHubu
