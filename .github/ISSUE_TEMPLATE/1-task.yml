@@ -1,0 +1,22 @@
+name: Task
+description: Konkrétní práce k udělání (úprava, napojení služby, skript, nasazení).
+type: Task
+body:
+  - type: markdown
+    attributes:
+      value: Titulek česky a věcně, co se má stát. Bez hesel, tokenů, secretů a osobních údajů zákazníků, issues čte každý člen organizace.
+  - type: textarea
+    id: kontext
+    attributes:
+      label: Kontext
+      description: Proč je úkol potřeba, odkazy na kód (soubor, funkce) nebo dokumentaci.
+    validations:
+      required: true
+  - type: textarea
+    id: hotovo-kdyz
+    attributes:
+      label: Hotovo, když
+      description: Podle čeho se pozná, že je úkol hotový; větší úkol jako checklist.
+      value: "- [ ] "
+    validations:
+      required: true

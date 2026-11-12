@@ -4,7 +4,11 @@ Společná GitHub workflow a výchozí soubory organizace [MITEL a.s.](https://g
 
 ## Obsah
 
+- `.github/ISSUE_TEMPLATE/` - výchozí formuláře issues: pro každý typ issue (Task, Bug, Feature, Decision) jeden, s oddíly podle manuálu GitHubu; prázdné issue web nenabízí.
 - `.github/workflows/check-pr.yml` - automatická kontrola pull requestů nástrojem Claude, společná pro všechny repozitáře organizace.
+- `.github/pull_request_template.md` - výchozí osnova popisu pull requestu.
+
+Výchozí šablony platí pro všechny repozitáře organizace, které nemají vlastní.
 
 ## Automatická kontrola pull requestů
 
@@ -42,6 +46,6 @@ V pull requestu a v Actions se kontrola zobrazuje jako checky „Check PR / Chec
 
 Úkoly, chyby a rozhodnutí se evidují v [GitHub Issues](https://github.com/mitelcz/.github/issues) tohoto repozitáře, změny jdou přes pull requesty. Pravidla jsou společná pro všechny repozitáře organizace: [manuál GitHubu](https://docs.mitel.cz/aplikace/github/) ve firemní dokumentaci. Specifika tohoto repozitáře:
 
-- **Veřejný repozitář:** na rozdíl od ostatních repozitářů organizace je veřejný, aby fungovaly výchozí šablony a profil organizace. Nepatří do něj nic tajného ani interního.
+- **Veřejný repozitář:** na rozdíl od ostatních repozitářů organizace je veřejný, protože výchozí šablony issues a pull requestů bere GitHub jen z veřejného repozitáře `.github`. Nepatří do něj nic tajného ani interního.
 - **Labels:** zatím žádné, repozitář má jen pár souborů.
 - **Milestones:** repozitář nemá fáze, milestones nepoužívá.
