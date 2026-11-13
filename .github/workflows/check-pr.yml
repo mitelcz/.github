@@ -58,8 +58,11 @@ jobs:
           # Strukturovaný výsledek čte krok Review result.
           # --setting-sources user: projektová nastavení a CLAUDE.md z checkoutu se nenačítají samy
           # (CLAUDE.md v podsložkách by byly z pull requestu), pravidla čte prompt ze základní větve.
+          # --permission-mode default: Claude smí jen nástroje z --allowedTools.
+          # Výchozí auto režim akce by povolil i další nástroje, které schválí bezpečnostní posouzení.
           claude_args: |
             --model claude-sonnet-5-5
+            --permission-mode default
             --setting-sources user
             --max-turns 60
             --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(git diff:*),Bash(git log:*),Bash(git show:*),Read,Grep,Glob"
@@ -75,6 +78,16 @@ jobs:
             exit 1
           fi
           echo "Nové nálezy: $new_findings"
+
+      # Akce výstup Claude do logu nevypisuje, při selhání vypíše důvod ze záznamu běhu (chyba API, limit útraty apod.).
+      - name: Failure reason
+        if: failure() && steps.review.outputs.execution_file != ''
+        env:
+          EXECUTION_FILE: ${{ steps.review.outputs.execution_file }}
+        run: |
+          jq -r '(if type == "array" then .[] else . end)
+            | select(.type == "result")
+            | "is_error: \(.is_error), api_error_status: \(.api_error_status // "-"), result: \(.result // "-")"' "$EXECUTION_FILE"
 
   # Check je červený, dokud zůstává nevyřešená konverzace u nálezu kontroly.
   # Úloha nevolá Claude API: po vyřešení konverzací stačí Re-run failed jobs, kontrola Claudem se neopakuje.
