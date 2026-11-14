@@ -4,6 +4,7 @@ Společná GitHub workflow a výchozí soubory organizace [MITEL a.s.](https://g
 
 ## Obsah
 
+- `.claude/settings.json` - nastavení Claude Code: mapa firemní dokumentace do kontextu při startu session (hook).
 - `.github/ISSUE_TEMPLATE/` - výchozí formuláře issues: pro každý typ issue (Task, Bug, Feature, Decision) jeden, s oddíly podle manuálu GitHubu; prázdné issue (Blank issue) web nabízí jen lidem s právem zápisu, s označením Maintainers only.
 - `.github/workflows/check-pr.yml` - automatická kontrola pull requestů nástrojem Claude, společná pro všechny repozitáře organizace.
 - `.github/pull_request_template.md` - výchozí osnova popisu pull requestu.
