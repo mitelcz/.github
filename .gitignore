@@ -1,3 +1,6 @@
 # Claude Code - osobní/lokální soubory (settings.local.json, CLAUDE.local.md, ...)
 **/.claude/**/*.local.*
 **/CLAUDE.local.md
+
+# Snímky stránek a logy z Playwright MCP (testy v prohlížeči)
+.playwright-mcp/
